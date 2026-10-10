@@ -34,7 +34,9 @@ function setState(newValue) {
 
 
 
+
 let rootComponent = null;
+let rootElement = null;
 
 export function renderApp() {
   if (rootComponent === null) {
@@ -42,10 +44,16 @@ export function renderApp() {
   }
 
   resetCursor();
-  rootComponent();
+
+  const output = rootComponent();
+
+  if (rootElement !== null) {
+    rootElement.replaceChildren(output);
+  }
 }
 
-export function registerApp(component) {
+export function registerApp(component, root = null) {
   rootComponent = component;
+  rootElement = root;
   renderApp();
 }
