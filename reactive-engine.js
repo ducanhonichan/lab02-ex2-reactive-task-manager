@@ -16,14 +16,36 @@ export function useState(initialValue) {
 
   const value = stateStore[currentIndex];
 
-  function setState(newValue) {
-    stateStore[currentIndex] =
-      typeof newValue === 'function'
-        ? newValue(stateStore[currentIndex])
-        : newValue;
-  }
+
+function setState(newValue) {
+  stateStore[currentIndex] =
+    typeof newValue === 'function'
+      ? newValue(stateStore[currentIndex])
+      : newValue;
+
+  renderApp();
+}
+
 
   stateCursor++;
 
   return [value, setState];
+}
+
+
+
+let rootComponent = null;
+
+export function renderApp() {
+  if (rootComponent === null) {
+    return;
+  }
+
+  resetCursor();
+  rootComponent();
+}
+
+export function registerApp(component) {
+  rootComponent = component;
+  renderApp();
 }
