@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Delegation Test</title>
+</head>
+<body>
+  <h2>Root Event Delegation Test</h2>
+
+  <div id="root">
+    <button id="add-btn">Add Task</button>
+    <button id="filter-btn">Filter Tasks</button>
+  </div>
+
+  <p id="result">Waiting for click...</p>
+
+  <script type="module">
+    import {
+      registerHandler,
+      attachEventHub
+    } from './event-hub.js';
+
+    const root = document.getElementById('root');
+    const result = document.getElementById('result');
+
+    const addButton = document.getElementById('add-btn');
+    const filterButton = document.getElementById('filter-btn');
+
+    addButton.dataset.eventId = registerHandler(() => {
+      result.textContent = 'Add Task clicked!';
+      console.log('Add Task handler executed');
+    });
+
+    filterButton.dataset.eventId = registerHandler(() => {
+      result.textContent = 'Filter Tasks clicked!';
+      console.log('Filter Tasks handler executed');
+    });
+
+    attachEventHub(root);
+
+    console.log('Root event delegation initialized');
+  </script>
+</body>
+</html>
+
